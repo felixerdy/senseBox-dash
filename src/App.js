@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import Sensor from './Sensor'
 import './App.css';
 
+const UPDATE_INTERVAL = 300000
+
 class App extends Component {
   constructor(props) {
     super(props)
@@ -28,7 +30,7 @@ class App extends Component {
   componentDidMount() {
     if (window.localStorage.getItem("boxID")) {
       this.fetchNewValues(window.localStorage.getItem("boxID"))
-      setInterval(() => this.fetchNewValues(this.state.box._id), 60000)
+      setInterval(() => this.fetchNewValues(this.state.box._id), UPDATE_INTERVAL)
     } else {
       this.setState({loading: true})
       fetch('https://api.opensensemap.org/boxes/')
@@ -63,6 +65,7 @@ class App extends Component {
           }
         })
       })
+    console.log("did update")
   }
 
   handleBoxSelectClick() {
@@ -76,7 +79,7 @@ class App extends Component {
       })
       this.fetchNewValues(this.state.box.data[0]._id)
       window.localStorage.setItem("boxID", this.state.box.data[0]._id)
-      setInterval(() => this.fetchNewValues(this.state.box.data[0]._id), 60000)
+      setInterval(() => this.fetchNewValues(this.state.box.data[0]._id), UPDATE_INTERVAL)
     }
   }
 
@@ -147,7 +150,7 @@ class App extends Component {
         <div className="sensors">
         {this.state.box.measurements.sensors &&
           this.state.box.measurements.sensors.map(s => {
-            return <Sensor {...s} boxId={this.state._id} key={s._id} />
+            return <Sensor {...s} boxId={this.state.box._id} key={s._id} />
           })
         }
         </div>

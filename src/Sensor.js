@@ -28,6 +28,14 @@ class Sensor extends Component {
     .then(data => this.setState({data: data}))
   }
 
+  componentDidUpdate(prevProps) {
+    if(this.props.lastMeasurement.value !== prevProps.lastMeasurement.value) {
+      fetch(`https://api.opensensemap.org/boxes/${this.props.boxId}/data/${this.props._id}`)
+      .then(res => res.json())
+      .then(data => this.setState({data: data}))
+    }
+  }
+
   render() {
     return (
       <div className="sensor">
