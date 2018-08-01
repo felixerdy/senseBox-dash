@@ -31,7 +31,7 @@ class Sensor extends Component {
   render() {
     return (
       <div className="sensor">
-        <Sparklines data={this.state.data.map(d => d.value).filter((e, i) => i % 20 === 0).reverse()} className="sparkLine" margin={0}>
+        <Sparklines data={this.state.data.map(d => d.value).filter((e, i) => i % 40 === 0).reverse()} className="sparkLine" margin={0}>
             <SparklinesLine color={colors[this.props.title] || "lightblue"} />
         </Sparklines>
         <p className="phenomenon">{this.props.title}</p>
