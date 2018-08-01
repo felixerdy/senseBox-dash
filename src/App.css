@@ -1,0 +1,107 @@
+/* 
+English Green:  #1A535C 
+Mint:           #4ECDC4
+Cream:          #F7FFF7
+Pastel Red:     #FF6B6B
+Maize:          #FFE66D
+*/
+
+
+@import url('https://fonts.googleapis.com/css?family=Varela+Round|Material+Icons');
+
+* {
+  font-family: 'Varela Round', sans-serif;
+}
+
+.App {
+  font-family: 'Varela Round', sans-serif;
+  background-color: #F7FFF7;
+  color: #1A535C;
+}
+
+.controls {
+  text-align: center;
+  padding: 20px;
+  background-color: #1A535C;
+  color: #F7FFF7;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 115px;
+}
+
+.sensors {
+  padding: 40px;
+}
+
+.search, .name, .edit, .rules {
+  flex-grow: 1;
+}
+
+.edit > button {
+  background: none;
+  color: inherit;
+  border: none;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+  outline: inherit;
+}
+
+.search > input, .search > button {
+  padding: 12px 20px;
+  margin: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+
+@keyframes lds-rolling {
+  0% {
+    -webkit-transform: translate(-50%, -50%) rotate(0deg);
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  100% {
+    -webkit-transform: translate(-50%, -50%) rotate(360deg);
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+@-webkit-keyframes lds-rolling {
+  0% {
+    -webkit-transform: translate(-50%, -50%) rotate(0deg);
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  100% {
+    -webkit-transform: translate(-50%, -50%) rotate(360deg);
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+.lds-rolling {
+  position: relative;
+}
+.lds-rolling div,
+.lds-rolling div:after {
+  position: absolute;
+  width: 160px;
+  height: 160px;
+  border: 20px solid #F7FFF7;
+  border-top-color: transparent;
+  border-radius: 50%;
+}
+.lds-rolling div {
+  -webkit-animation: lds-rolling 1s linear infinite;
+  animation: lds-rolling 1s linear infinite;
+  top: 100px;
+  left: 100px;
+}
+.lds-rolling div:after {
+  -webkit-transform: rotate(90deg);
+  transform: rotate(90deg);
+}
+.lds-rolling {
+  width: 200px !important;
+  height: 200px !important;
+  -webkit-transform: translate(-100px, -100px) scale(1) translate(100px, 100px);
+  transform: translate(-100px, -100px) scale(1) translate(100px, 100px);
+}
