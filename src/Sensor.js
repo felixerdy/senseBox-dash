@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Sparklines, SparklinesLine } from 'react-sparklines';
+import { Sparklines, SparklinesCurve } from 'react-sparklines';
 import './Sensor.css'
 
 const colors = {
@@ -20,6 +20,8 @@ class Sensor extends Component {
         this.state = {
           data: []
         }
+
+        this.alertMinMax = this.alertMinMax.bind(this)
       }
 
   componentDidMount() {
@@ -36,11 +38,20 @@ class Sensor extends Component {
     }
   }
 
+  alertMinMax() {
+    let min = Math.min(...this.state.data.map(d => Number(d.value))).toFixed(2)
+    let max = Math.max(...this.state.data.map(d => Number(d.value))).toFixed(2)
+
+    let alertText = `48 Stunden Minimum: ${min} ${this.props.unit}\n48 Stunden Maximum: ${max} ${this.props.unit}`
+
+    alert(alertText)
+  }
+
   render() {
     return (
-      <div className="sensor">
+      <div className="sensor" onClick={this.alertMinMax}>
         <Sparklines data={this.state.data.map(d => d.value).filter((e, i) => i % 40 === 0).reverse()} className="sparkLine" margin={0}>
-            <SparklinesLine color={colors[this.props.title] || "lightblue"} />
+            <SparklinesCurve color={colors[this.props.title] || "lightblue"} />
         </Sparklines>
         <p className="phenomenon">{this.props.title}</p>
         <p className="measurement">{parseFloat(this.props.lastMeasurement.value).toFixed(2)} {this.props.unit}</p>
