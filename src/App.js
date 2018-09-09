@@ -69,7 +69,6 @@ class App extends Component {
   }
 
   handleBoxSelectClick() {
-    console.log()
     if (this.state.box.data.length === 1) {
       this.setState(prevState => {
         return {
