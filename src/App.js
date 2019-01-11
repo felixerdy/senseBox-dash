@@ -1,12 +1,12 @@
-import React, { Component } from 'react';
-import Sensor from './Sensor'
-import './App.css';
+import React, { Component } from "react";
+import Sensor from "./Sensor";
+import "./App.css";
 
-const UPDATE_INTERVAL = 300000
+const UPDATE_INTERVAL = 300000;
 
 class App extends Component {
   constructor(props) {
-    super(props)
+    super(props);
 
     this.state = {
       box: {
@@ -19,39 +19,42 @@ class App extends Component {
       searchMode: false,
       searchInput: "",
       loading: false
-    }
+    };
 
-    this.fetchNewValues = this.fetchNewValues.bind(this)
-    this.handleBoxSelectInput = this.handleBoxSelectInput.bind(this)
-    this.handleBoxSelectClick = this.handleBoxSelectClick.bind(this)
-    this.handleEditButtonClick = this.handleEditButtonClick.bind(this)
+    this.fetchNewValues = this.fetchNewValues.bind(this);
+    this.handleBoxSelectInput = this.handleBoxSelectInput.bind(this);
+    this.handleBoxSelectClick = this.handleBoxSelectClick.bind(this);
+    this.handleEditButtonClick = this.handleEditButtonClick.bind(this);
   }
 
   componentDidMount() {
     if (window.localStorage.getItem("boxID")) {
-      this.fetchNewValues(window.localStorage.getItem("boxID"))
-      setInterval(() => this.fetchNewValues(this.state.box._id), UPDATE_INTERVAL)
+      this.fetchNewValues(window.localStorage.getItem("boxID"));
+      setInterval(
+        () => this.fetchNewValues(this.state.box._id),
+        UPDATE_INTERVAL
+      );
     } else {
-      this.setState({loading: true})
-      fetch('https://api.opensensemap.org/boxes?minimal=true')
+      this.setState({ loading: true });
+      fetch("https://api.opensensemap.org/boxes?minimal=true")
         .then(res => res.json())
         .then(data => {
-          console.log(data)
+          console.log(data);
           this.setState(prevState => {
             return {
               ...prevState,
               searchMode: true,
               allBoxes: data,
               loading: false
-            }
-          })
-        })
+            };
+          });
+        });
     }
     Notification.requestPermission();
   }
 
   fetchNewValues(id) {
-    fetch('https://api.opensensemap.org/boxes/' + id)
+    fetch("https://api.opensensemap.org/boxes/" + id)
       .then(res => res.json())
       .then(data => {
         this.setState(prevState => {
@@ -62,10 +65,10 @@ class App extends Component {
               ...data,
               measurements: data
             }
-          }
-        })
-      })
-    console.log("did update")
+          };
+        });
+      });
+    console.log("did update");
   }
 
   handleBoxSelectClick() {
@@ -74,16 +77,19 @@ class App extends Component {
         return {
           ...prevState,
           searchMode: false
-        }
-      })
-      this.fetchNewValues(this.state.box.data[0]._id)
-      window.localStorage.setItem("boxID", this.state.box.data[0]._id)
-      setInterval(() => this.fetchNewValues(this.state.box.data[0]._id), UPDATE_INTERVAL)
+        };
+      });
+      this.fetchNewValues(this.state.box.data[0]._id);
+      window.localStorage.setItem("boxID", this.state.box.data[0]._id);
+      setInterval(
+        () => this.fetchNewValues(this.state.box.data[0]._id),
+        UPDATE_INTERVAL
+      );
     }
   }
 
   handleBoxSelectInput(e) {
-    let val = e.target.value
+    let val = e.target.value;
     this.setState(prevState => {
       return {
         ...prevState,
@@ -92,29 +98,32 @@ class App extends Component {
           name: val,
           data: this.state.allBoxes.filter(box => box.name === val)
         }
-      }
-    })
+      };
+    });
   }
 
   handleEditButtonClick() {
-    this.setState(prevState => { 
-      return { ...prevState, searchMode: !prevState.searchMode } 
-    }, () => {
-      if(this.state.searchMode && this.state.allBoxes.length === 0) {
-        this.setState({loading: true})
-        fetch('https://api.opensensemap.org/boxes/')
-        .then(res => res.json())
-        .then(data => {
-          this.setState(prevState => {
-            return {
-              ...prevState,
-              allBoxes: data,
-              loading: false
-            }
-          })
-        })
+    this.setState(
+      prevState => {
+        return { ...prevState, searchMode: !prevState.searchMode };
+      },
+      () => {
+        if (this.state.searchMode && this.state.allBoxes.length === 0) {
+          this.setState({ loading: true });
+          fetch("https://api.opensensemap.org/boxes/")
+            .then(res => res.json())
+            .then(data => {
+              this.setState(prevState => {
+                return {
+                  ...prevState,
+                  allBoxes: data,
+                  loading: false
+                };
+              });
+            });
+        }
       }
-    })    
+    );
   }
 
   render() {
@@ -123,39 +132,40 @@ class App extends Component {
         <div className="controls">
           <div className="edit">
             <button onClick={this.handleEditButtonClick}>
-              <i className="material-icons">
-                edit
-              </i>
+              <i className="material-icons">edit</i>
             </button>
           </div>
-          {this.state.loading &&
-            <h1>Loading Data...</h1>
-          }
+          {this.state.loading && <h1>Loading Data...</h1>}
           {this.state.searchMode ? (
             <div className="search">
-              <input type="text" list="boxes" onChange={this.handleBoxSelectInput} placeholder="senseBox Name" />
+              <input
+                type="text"
+                list="boxes"
+                onChange={this.handleBoxSelectInput}
+                placeholder="senseBox Name"
+              />
               <button onClick={this.handleBoxSelectClick}>Auswählen</button>
             </div>
           ) : (
-              <div className="name">
-                <h1>{this.state.box.name}</h1>
-              </div>
-            )
-          }
-          <div className="rules">
-
-          </div>
+            <div className="name">
+              <h1>{this.state.box.name}</h1>
+            </div>
+          )}
+          <div className="rules" />
         </div>
         <div className="sensors">
-        {this.state.box.measurements.sensors &&
-          this.state.box.measurements.sensors.map(s => {
-            return <Sensor {...s} boxId={this.state.box._id} key={s._id} />
-          })
-        }
+          {this.state.box.measurements.sensors &&
+            this.state.box.measurements.sensors.map(s => {
+              return <Sensor {...s} boxId={this.state.box._id} key={s._id} />;
+            })}
         </div>
 
         <datalist id="boxes">
-          {this.state.allBoxes.map(box => <option value={box.name} key={box._id}>{box._id}</option>)}
+          {this.state.allBoxes.map(box => (
+            <option value={box.name} key={box._id}>
+              {box._id}
+            </option>
+          ))}
         </datalist>
       </div>
     );
