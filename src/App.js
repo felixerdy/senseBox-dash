@@ -33,7 +33,7 @@ class App extends Component {
       setInterval(() => this.fetchNewValues(this.state.box._id), UPDATE_INTERVAL)
     } else {
       this.setState({loading: true})
-      fetch('https://api.opensensemap.org/boxes/')
+      fetch('https://api.opensensemap.org/boxes?minimal=true')
         .then(res => res.json())
         .then(data => {
           console.log(data)
