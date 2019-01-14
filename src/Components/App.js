@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Sensor from "./Sensor";
-import "./App.css";
+import "./App.scss";
 
 const UPDATE_INTERVAL = 300000;
 
