@@ -39,7 +39,6 @@ class App extends Component {
       fetch("https://api.opensensemap.org/boxes?minimal=true")
         .then(res => res.json())
         .then(data => {
-          console.log(data);
           this.setState(prevState => {
             return {
               ...prevState,
@@ -50,7 +49,7 @@ class App extends Component {
           });
         });
     }
-    Notification.requestPermission();
+    // Notification.requestPermission();
   }
 
   fetchNewValues(id) {
@@ -68,7 +67,6 @@ class App extends Component {
           };
         });
       });
-    console.log("did update");
   }
 
   handleBoxSelectClick() {
