@@ -10,7 +10,7 @@
     "react-sparklines": "^1.7.0"
   },
   "scripts": {
-    "start": "parcel ./public/index.html",
+    "start": "NODE_ENV=development parcel ./public/index.html",
     "build": "parcel build ./public/index.html"
   },
   "devDependencies": {

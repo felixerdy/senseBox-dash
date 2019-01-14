@@ -29,6 +29,8 @@ Maize:          #FFE66D
 .sensors {
   padding: 40px;
   margin-top: -140px;
+  display: flex;
+  flex-flow: row wrap;
 }
 
 .search,
