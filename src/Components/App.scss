@@ -17,13 +17,16 @@ Maize:          #FFE66D
 
 .controls {
   text-align: center;
-  padding: 20px;
+  padding: 40px;
   background-color: #1a535c;
   color: #f7fff7;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
   height: 200px;
+
+  .flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
 }
 
 .sensors {
@@ -38,7 +41,7 @@ Maize:          #FFE66D
 .edit,
 .rules {
   flex-grow: 1;
-  margin-top: -40px;
+  // margin-top: -40px;
 }
 
 .edit > button {

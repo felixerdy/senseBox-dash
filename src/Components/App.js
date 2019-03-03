@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import moment from "moment";
 import Sensor from "./Sensor";
 import "./App.scss";
 
@@ -28,6 +29,25 @@ class App extends Component {
   }
 
   componentDidMount() {
+    moment.localeData("de");
+    // moment.updateLocale("de", {
+    //   relativeTime: {
+    //     future: "in %s",
+    //     past: "vor %s",
+    //     s: "ein paar Sekunden",
+    //     ss: "%d Sekunden",
+    //     m: "einer Minute",
+    //     mm: "%d Minuten",
+    //     h: "einer Stunde",
+    //     hh: "%d Stunden",
+    //     d: "einem Tag",
+    //     dd: "%d Tagen",
+    //     M: "einem Monat",
+    //     MM: "%d Monaten",
+    //     y: "einem Jahr",
+    //     yy: "%d Jahren"
+    //   }
+    // });
     if (window.localStorage.getItem("boxID")) {
       this.fetchNewValues(window.localStorage.getItem("boxID"));
       setInterval(
@@ -128,28 +148,40 @@ class App extends Component {
     return (
       <div className="App">
         <div className="controls">
-          <div className="edit">
-            <button onClick={this.handleEditButtonClick}>
-              <i className="material-icons">edit</i>
-            </button>
+          <div className="flex">
+            <div className="edit">
+              <button onClick={this.handleEditButtonClick}>
+                <i className="material-icons">edit</i>
+              </button>
+            </div>
+            {this.state.loading && <h1 />}
+            {this.state.searchMode ? (
+              <div className="search">
+                <input
+                  type="text"
+                  list="boxes"
+                  onChange={this.handleBoxSelectInput}
+                  placeholder="senseBox Name"
+                />
+                <button onClick={this.handleBoxSelectClick}>Auswählen</button>
+              </div>
+            ) : (
+              <div className="name">
+                {this.state.loading ? (
+                  <h1>Loading Data...</h1>
+                ) : (
+                  <h1>{this.state.box.name}</h1>
+                )}
+              </div>
+            )}
+            <div className="rules" />
           </div>
-          {this.state.loading && <h1>Loading Data...</h1>}
-          {this.state.searchMode ? (
-            <div className="search">
-              <input
-                type="text"
-                list="boxes"
-                onChange={this.handleBoxSelectInput}
-                placeholder="senseBox Name"
-              />
-              <button onClick={this.handleBoxSelectClick}>Auswählen</button>
-            </div>
-          ) : (
-            <div className="name">
-              <h1>{this.state.box.name}</h1>
-            </div>
-          )}
-          <div className="rules" />
+          <p>
+            Last seen{" "}
+            {moment(this.state.box.updatedAt)
+              .lang("de")
+              .fromNow()}
+          </p>
         </div>
         <div className="sensors">
           {this.state.box.measurements.sensors &&
